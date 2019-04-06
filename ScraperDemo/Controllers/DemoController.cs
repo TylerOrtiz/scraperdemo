@@ -10,6 +10,7 @@ namespace ScraperDemo.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["BaseUrl"] = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             return View();
         }
     }
