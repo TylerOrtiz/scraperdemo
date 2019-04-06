@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScraperDemo.Model
 {
-    public class ScraperRequestModel
+    public class ScraperRequest
     {
         public string Url { get; set; }
     }

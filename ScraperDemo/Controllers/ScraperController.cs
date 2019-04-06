@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using ScraperDemo.Model;
+using ScraperDemo.Interfaces;
 
 namespace ScraperDemo.Controllers
 {
@@ -12,13 +13,27 @@ namespace ScraperDemo.Controllers
     [ApiController]
     public class ScraperController : ControllerBase
     {
-        [HttpPost]
-        public ActionResult<ScraperResponseModel> Scrape(ScraperRequestModel scraperRequest)
+        private readonly IScraperLogic scraperLogic;
+
+        public ScraperController(IScraperLogic logic)
         {
-            var response = new ScraperResponseModel
+            scraperLogic = logic;
+        }
+
+        [HttpPost]
+        [Route("LoadUrl")]
+        public ActionResult<ScraperResponse> LoadUrl(ScraperRequest request)
+        {
+            var url = scraperLogic.ScrapeUrl(request.Url);
+            var response = new ScraperResponse
             {
-                FetchedUrl = $"Web scraper demo for: {scraperRequest.Url}"
+                FetchedUrl = $"{request.Url}",
+                TotalWords = 100
             };
+            response.Images.Add("http://somewhere.com/image.png");
+            response.Images.Add("http://somewhereelse.com/image.png");
+            response.Words.Add(new ScraperResponse.KeyCount() { Key = "This", Count = 10});
+            response.Words.Add(new ScraperResponse.KeyCount() { Key = "That", Count = 5 });
             return response;
         }
     }
