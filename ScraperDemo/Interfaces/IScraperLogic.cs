@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using ScraperDemo.Model;
 
 namespace ScraperDemo.Interfaces
 {
     public interface IScraperLogic
     {
-        string ScrapeUrl(string url);
+        ScraperResults ScrapeUrl(string url);
     }
+
+    
 }

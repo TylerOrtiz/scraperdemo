@@ -24,16 +24,22 @@ namespace ScraperDemo.Controllers
         [Route("LoadUrl")]
         public ActionResult<ScraperResponse> LoadUrl(ScraperRequest request)
         {
-            var url = scraperLogic.ScrapeUrl(request.Url);
+            var scraperResults = scraperLogic.ScrapeUrl(request.Url);
             var response = new ScraperResponse
             {
                 FetchedUrl = $"{request.Url}",
                 TotalWords = 100
             };
+            response.Images.AddRange(scraperResults.Images);
+            scraperResults.Words.ForEach(e => {
+                response.Words.Add(new ScraperResponse.KeyCount() { Key = e, Count = 0});
+            });
+           
             response.Images.Add("http://somewhere.com/image.png");
             response.Images.Add("http://somewhereelse.com/image.png");
-            response.Words.Add(new ScraperResponse.KeyCount() { Key = "This", Count = 10});
+            response.Words.Add(new ScraperResponse.KeyCount() { Key = "This", Count = 10 });
             response.Words.Add(new ScraperResponse.KeyCount() { Key = "That", Count = 5 });
+
             return response;
         }
     }
