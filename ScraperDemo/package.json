@@ -1,0 +1,29 @@
+{
+  "name": "scraperdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TylerOrtiz/scraperdemo.git"
+  },
+  "author": "Tyler O",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TylerOrtiz/scraperdemo/issues"
+  },
+  "homepage": "https://github.com/TylerOrtiz/scraperdemo#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "del": "^4.1.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.15.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0"
+  }
+}

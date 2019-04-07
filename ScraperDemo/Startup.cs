@@ -46,7 +46,7 @@ namespace ScraperDemo
 
             app.ConfigureExceptionHandler();
             app.UseStatusCodePages();
-
+            app.UseStaticFiles();
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",

@@ -12,3 +12,5 @@
 /ScraperDemo/bin
 /ScraperDemo/obj
 
+node_modules
+/ScraperDemo/wwwroot/dist
