@@ -27,18 +27,26 @@ namespace ScraperDemo.Controllers
             var scraperResults = scraperLogic.ScrapeUrl(request.Url);
             var response = new ScraperResponse
             {
-                FetchedUrl = $"{request.Url}",
-                TotalWords = 100
+                FetchedUrl = $"{request.Url}"
             };
             response.Images.AddRange(scraperResults.Images);
+            var uniqueWords = new Dictionary<string, uint>();
             scraperResults.Words.ForEach(e => {
-                response.Words.Add(new ScraperResponse.KeyCount() { Key = e, Count = 0});
+                if(uniqueWords.ContainsKey(e))
+                {
+                    uniqueWords[e] += 1;
+                } else
+                {
+                    uniqueWords.Add(e, 1);
+                }
+                
             });
-           
-            response.Images.Add("http://somewhere.com/image.png");
-            response.Images.Add("http://somewhereelse.com/image.png");
-            response.Words.Add(new ScraperResponse.KeyCount() { Key = "This", Count = 10 });
-            response.Words.Add(new ScraperResponse.KeyCount() { Key = "That", Count = 5 });
+
+            var uniqueWordsList = uniqueWords.ToList();
+            uniqueWordsList.ForEach(item => {
+                response.Words.Add(new ScraperResponse.KeyCount() { Key = item.Key, Count = item.Value });
+            });
+            response.TotalWords = (uint)uniqueWordsList.Count;
 
             return response;
         }
