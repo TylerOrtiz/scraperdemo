@@ -5,7 +5,9 @@
         resultsElement: null,
         urlErrorsElement: null,
         totalWordsElement: null,
-        carouselElement: null
+        carouselElement: null,
+        chartElement: null,
+        chartObject: null
     };
 
     function postToApi() {
@@ -42,7 +44,7 @@
         scraperDemo.resultsElement.show();
         updateWordCount(data.totalWords);
         updateCarousel(data.images);
-        $('#urlWords').text(data.words);
+        updateChart(data.words);
     }
 
     function showErrors(error) {
@@ -59,9 +61,9 @@
     }
 
     function updateCarousel(images) {
-        console.log(images);
         $('.carousel-inner').empty();
         $('.carousel-indicators').empty();
+
         for (let j = 0; j < images.length; j++) {
             $(`<div class="carousel-item"><img src="${images[j]}" class="img-fluid mx-auto d-block w-50"></div>`).appendTo('.carousel-inner');
             $(`<li data-target="#scrapeCarousel" data-slide-to="${j}"></li > `).appendTo('.carousel-indicators')
@@ -73,12 +75,78 @@
         scraperDemo.carouselElement.carousel();
     }
 
+    function updateChart(words) {
+        console.log(words);
+        words.sort(function (first, second) {
+            if (first.count < second.count) {
+                return 1;
+            }
+
+            if (first.count > second.count) {
+                return -1;
+            }
+
+            return 0;
+        });
+        var targetWords = words.slice(0, 11);
+
+        var chartLabels = targetWords.map(function (e) {
+            return e.key;
+        });
+        var chartPoints = targetWords.map(function (e) {
+            return e.count;
+        });
+
+        if (scraperDemo.chartObject === null) {
+            scraperDemo.chartObject = new Chart(scraperDemo.chartElement, {
+                type: 'horizontalBar',
+                data: {
+                    datasets: [{}]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Top 10 most commonly used words'
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        }
+
+        scraperDemo.chartObject.data.labels.pop();
+        scraperDemo.chartObject.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        scraperDemo.chartObject.update();
+
+        scraperDemo.chartObject.data.labels = chartLabels;
+        scraperDemo.chartObject.data.datasets.forEach((dataset) => {
+            dataset.data = chartPoints;
+            dataset.backgroundColor = [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ];
+        });
+        scraperDemo.chartObject.update();
+    }
+
     $(document).ready(function () {
         scraperDemo.resultsElement = $('#scrapeResults');
         scraperDemo.formElement = $('#webscraperdemo');
         scraperDemo.urlErrorsElement = $('#urlerrors');
         scraperDemo.totalWordsElement = $('#totalWords');
         scraperDemo.carouselElement = $('#scrapeCarousel');
+        scraperDemo.chartElement = $('#scrapeChart');
 
         scraperDemo.resultsElement.hide();
 

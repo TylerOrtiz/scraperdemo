@@ -30,11 +30,16 @@ function popperJs() {
         .pipe(dest('./wwwroot/dist/popper'));
 }
 
+function chartJs() {
+    return src('./node_modules/chart.js/dist/**/*.js')
+        .pipe(dest('./wwwroot/dist/chart.js'));
+}
+
 function appScripts() {
     return src('./Scripts/**/*.js').pipe(dest('./wwwroot/js'));
 }
 
-buildTask = series(bootstrapTask, jQuery, popperJs, appScripts);
+buildTask = series(bootstrapTask, jQuery, popperJs, chartJs, appScripts);
 cleanTask = series(clean);
 
 exports.build = buildTask;
