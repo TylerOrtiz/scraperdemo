@@ -7,12 +7,12 @@
     <link rel="stylesheet" type="text/css" href="~/dist/bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+    @RenderBody()
 
     <script src="~/dist/jquery/jquery.min.js"></script>
     <script src="~/dist/popper/umd/popper.min.js"></script>
     <script src="~/dist/bootstrap/js/bootstrap.min.js"></script>
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>

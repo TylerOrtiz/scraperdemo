@@ -3,7 +3,44 @@
     ViewData["Title"] = "Scraper Demo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-4 mx-auto">
+            <h1>Scraper Demo</h1>
 
-<h1>Scraper Demo</h1>
+            <form id="webscraperdemo" action="/api/Scraper/LoadUrl">
+                <label for="urlinput" class="d-block w-100 my-2">Enter a URL to scrape:</label>
+                <input id="urlinput" type="text" name="url" value="" placeholder="https://www.google.com" required class="form-control my-2" />
+                <div id="urlerrors" class="text-danger"></div>
+                <button type="submit" class="btn btn-primary my-2">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div id="scrapeResults" class="row">
+        <div class="col-12 col-lg-8 mx-auto my-4">
+            <h2>Scrape Results</h2>
+            <div class="my-2">Total Words: <span id="totalWords"></span></div>
+            <div class="my-2">Images:</div>
+            <div id="scrapeCarousel" class="carousel slide bg-dark">
+                <ol class="carousel-indicators"></ol>
+                <div class="carousel-inner">
 
-<p>Using ARC/Postman, hit endpoint <pre>@ViewData["BaseUrl"]/api/scraper/LoadUrl</pre></p>
+                </div>
+                <a class="carousel-control-prev" href="#scrapeCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#scrapeCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="my-2">Word Details:</div>
+            <div id="urlWords"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+   <script src="~/js/ScraperDemo.js"></script>
+}

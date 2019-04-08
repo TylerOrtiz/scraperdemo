@@ -4,6 +4,7 @@ var del = require('del');
 function clean() {
     return del([
         './wwwroot/dist',
+        './wwwroot/js'
     ]);
 }
 
@@ -24,16 +25,16 @@ function jQuery() {
         .pipe(dest('./wwwroot/dist/jquery'));
 }
 
-jQueryTask = parallel(jQuery);
-
 function popperJs() {
     return src('./node_modules/popper.js/dist/**/*.js')
         .pipe(dest('./wwwroot/dist/popper'));
 }
 
-popperJsTask = parallel(popperJs);
+function appScripts() {
+    return src('./Scripts/**/*.js').pipe(dest('./wwwroot/js'));
+}
 
-buildTask = series(bootstrapTask, jQueryTask, popperJsTask);
+buildTask = series(bootstrapTask, jQuery, popperJs, appScripts);
 cleanTask = series(clean);
 
 exports.build = buildTask;
